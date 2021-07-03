@@ -1,14 +1,23 @@
-### STM32 study memo
-#### 参考リンク
-* STM32開発環境
+### 参考プログラム
+#### 開発環境
+https://qiita.com/yosihisa/items/136bcc09c466227303a2
 https://qiita.com/usashirou/items/65be086c28f7a6feac7d
-
 https://qiita.com/kztriioa/items/b886ac442d3de22a3ff9
 
+「MCU/MPU selector」ではなく「Board selector」を選択
+#### デバッガが着込み
+build(ハンマー) => debug(虫眼鏡) => switchを押す
+エディタの行をダブルクリックでブレークを貼ることができる。
+デバッグで使う機能：
+  resume, step over, step in, 
 
-
-#### main.c構成
-
+### Lチカ
+https://depfields.com/gpio-led-toggle-apl/
+https://qiita.com/yosihisa/items/136bcc09c466227303a2
+仕様：
+入力：PC13　フローティング入力 押しボタンスイッチ
+出力：PA5　プッシュプル出力+500Ω+LED
+機能：押しボタンSWを押したときだけ出力LEDが点灯する
 
 #### HAL_GPIO_WritePin関数
 電流のON/OFFをする関数。
@@ -32,5 +41,3 @@ https://qiita.com/kztriioa/items/b886ac442d3de22a3ff9
 3. 指定したピンの電流をOFFにする
 4. その状態のまま一秒待つ
 5. 1に戻る
-
-* 
