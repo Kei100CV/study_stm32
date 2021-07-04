@@ -5,19 +5,56 @@ https://qiita.com/usashirou/items/65be086c28f7a6feac7d
 https://qiita.com/kztriioa/items/b886ac442d3de22a3ff9
 
 「MCU/MPU selector」ではなく「Board selector」を選択
-#### デバッガが着込み
+#### デバッガ書込み
 build(ハンマー) => debug(虫眼鏡) => switchを押す
 エディタの行をダブルクリックでブレークを貼ることができる。
 デバッグで使う機能：
   resume, step over, step in, 
 
-### Lチカ
+#### Lチカ
 https://depfields.com/gpio-led-toggle-apl/
 https://qiita.com/yosihisa/items/136bcc09c466227303a2
 仕様：
 入力：PC13　フローティング入力 押しボタンスイッチ
 出力：PA5　プッシュプル出力+500Ω+LED
-機能：押しボタンSWを押したときだけ出力LEDが点灯する
+```C
+HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   //LEDを点灯
+HAL_Delay(500); //500ms待つ
+HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //LEDを消灯
+HAL_Delay(500); //500ms待つ
+```
+
+
+#### 外部入力信号による割り込みアプリケーション
+GPIOCの値はデフォルトがGPIO_PIN_SETのようだ
+同じSTM32でも型番によってドライバー関数名やインターフェースは大きく異なるようだ
+
+```C
+HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13); // default set
+if (time_led == 500) {
+    if (state_blue_sw == GPIO_PIN_RESET) {
+        // flag_speed_led = 1;
+        time_led = 250;
+        HAL_Delay(2000); // time_led ms待つ
+    } else {
+        // time_led = 500;
+    }
+} else if (time_led == 250) {
+    if (state_blue_sw == GPIO_PIN_RESET) {
+        time_led = 500;
+        HAL_Delay(2000); // time_led ms待つ
+    } else {
+
+    }
+}
+HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   //LEDを点灯
+HAL_Delay(time_led); // time_led ms待つ
+HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //LEDを消灯
+HAL_Delay(time_led); // time_led ms待つ
+```
+
+
+### STM32 関数説明
 
 #### HAL_GPIO_WritePin関数
 電流のON/OFFをする関数。

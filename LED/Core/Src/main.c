@@ -66,52 +66,66 @@ static void MX_USART2_UART_Init(void);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+    /* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
-  
+    /* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+    /* MCU Configuration--------------------------------------------------------*/
 
-  /* USER CODE BEGIN Init */
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    HAL_Init();
 
-  /* USER CODE END Init */
+    /* USER CODE BEGIN Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+    /* USER CODE END Init */
 
-  /* USER CODE BEGIN SysInit */
+    /* Configure the system clock */
+    SystemClock_Config();
 
-  /* USER CODE END SysInit */
+    /* USER CODE BEGIN SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART2_UART_Init();
-  /* USER CODE BEGIN 2 */
+    /* USER CODE END SysInit */
 
-  /* USER CODE END 2 */
- 
- 
+    /* Initialize all configured peripherals */
+    MX_GPIO_Init();
+    MX_USART2_UART_Init();
+    /* USER CODE BEGIN 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
-	    /* USER CODE BEGIN 3 */
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   //LEDを点灯
-      HAL_Delay(2000); //500ms待つ
-      for (int i = 0; i < 500;) {
-    	  i++;
-      }
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //LEDを消灯
-      HAL_Delay(2000); //500ms待つ
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+    /* USER CODE END 2 */
+
+
+
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    uint16_t time_led = 500;
+    GPIO_PinState state_blue_sw = GPIO_PIN_SET;
+    while (1)
+    {
+        state_blue_sw = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13); // default set
+
+        if (time_led == 500) {
+            if (state_blue_sw == GPIO_PIN_RESET) {
+                // flag_speed_led = 1;
+                time_led = 250;
+                HAL_Delay(2000); // time_led ms待つ
+            } else {
+                // time_led = 500;
+            }
+        } else if (time_led == 250) {
+            if (state_blue_sw == GPIO_PIN_RESET) {
+                time_led = 500;
+                HAL_Delay(2000); // time_led ms待つ
+            } else {
+
+            }
+
+        }
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   //LEDを点灯
+        HAL_Delay(time_led); // time_led ms待つ
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //LEDを消灯
+        HAL_Delay(time_led); // time_led ms待つ
+    }
 }
 
 /**
