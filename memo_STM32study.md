@@ -52,6 +52,21 @@ HAL_Delay(time_led); // time_led ms待つ
 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //LEDを消灯
 HAL_Delay(time_led); // time_led ms待つ
 ```
+#### STM32へのFreeRTOS自前移植
+https://zenn.dev/peterleif/articles/908c9dd433248a
+https://depfields.com/freertos/
+
+1. FreeRTOSをダウンロード
+2. Sourceファイルをプロジェクト内にコピーしてパスを通す
+    * 基本的には全部コピーして使えるがGCC内のファイルは使用するMPUに関わるもののみコピーしてよい
+    * プロジェクトのフォルダを右クリックしてProperties -> c/c++ General -> Path and Symbolsを選びInclude pathを追加
+    * sourceタブからソースのフォルダを追加する
+3. 
+* SYS
+* NVIC
+* FreeRTOSディレクトリのコピー
+    portable/GCC/ARM_CM4F
+    portable/MemMang/heap_4.c
 
 
 ### STM32 関数説明

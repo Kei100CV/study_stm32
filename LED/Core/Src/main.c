@@ -20,6 +20,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -51,6 +54,10 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
+void TaskA(void *pvParameters);
+void TaskB(void *pvParameters);
+
+
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -100,6 +107,10 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     uint16_t time_led = 500;
     GPIO_PinState state_blue_sw = GPIO_PIN_SET;
+    // xTaskCreate(TaskA, (signed portCHAR *) "TaskA", 769 / 4, NULL, 1, NULL);
+    // xTaskCreate(TaskB, (signed portCHAR *) "TaskB", 768 / 4, NULL, 1, NULL);
+    xTaskCreate(TaskA, (const char *) "TaskA", 769 / 4, NULL, 1, NULL);
+    xTaskCreate(TaskB, (const char *) "TaskB", 768 / 4, NULL, 1, NULL);
     while (1)
     {
         state_blue_sw = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13); // default set
@@ -125,6 +136,20 @@ int main(void)
         HAL_Delay(time_led); // time_led ms待つ
         HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //LEDを消灯
         HAL_Delay(time_led); // time_led ms待つ
+    }
+}
+
+void TaskA(void *pvParameters) 
+{
+    while(1) {
+        // test A
+    }
+}
+
+void TaskB(void *pvParameters)
+{
+    while(1) {
+        // test B
     }
 }
 

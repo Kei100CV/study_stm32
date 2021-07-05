@@ -940,3 +940,7 @@
 2021-07-04 14:42:21,335 [INFO] ApiDb:158 - Load user favorites file C:\Users\Keigo Nishida/.stm32cubemx/favorites.mcus.txt: 1 item(s)
 2021-07-04 14:42:21,335 [INFO] ApiDb:163 - User favorites MCUs=[STM32F446RETx]
 2021-07-04 14:42:21,335 [INFO] DbMcus:203 - Set 1 / 1 favorites MCUs
+2021-07-05 23:06:22,103 [INFO] Activator:176 - 
+
+
+2021-07-05 23:06:22,119 [INFO] Activator:177 - !SESSION log4j initialized
