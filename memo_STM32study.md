@@ -59,14 +59,22 @@ https://depfields.com/freertos/
 1. FreeRTOSをダウンロード
 2. Sourceファイルをプロジェクト内にコピーしてパスを通す
     * 基本的には全部コピーして使えるがGCC内のファイルは使用するMPUに関わるもののみコピーしてよい
+      * portable/Common, GCC, MemMan 
+      * portable/GCC/ARM_CM4F
     * プロジェクトのフォルダを右クリックしてProperties -> c/c++ General -> Path and Symbolsを選びInclude pathを追加
     * sourceタブからソースのフォルダを追加する
-3. 
+4. STM32のデフォルトの割り込みライブラリはFreeRTOSの関数名と競合するので削除する 
+5. heap*.cは1つのみ残し他は削除する必要がある
+6. FreeRTOSConfig.hの作成
+   * IDLE_HOOK, TICK_HOOK, stack overflow 検知の関数はデフォルトでないのでオフにする
+   ```C
+   #define configUSE_IDLE_HOOK				0 // default 1
+   #define configUSE_TICK_HOOK				0 // default 1
+   #define configCHECK_FOR_STACK_OVERFLOW	0 // default 2
+   ```
+
 * SYS
 * NVIC
-* FreeRTOSディレクトリのコピー
-    portable/GCC/ARM_CM4F
-    portable/MemMang/heap_4.c
 
 
 ### STM32 関数説明
